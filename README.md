@@ -62,7 +62,7 @@ nvidia-smi topo -m
 /usr/local/cuda-13.3/bin/nvcc --version
 ```
 
-如果网络需要代理，显式传入自己的代理地址；仓库不包含任何代理凭据：
+如果网络需要代理，显式传入自己的代理地址：
 
 ```bash
 export PROXY_URL='http://user:password@proxy-host:port'
