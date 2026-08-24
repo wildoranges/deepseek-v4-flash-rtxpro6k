@@ -26,9 +26,9 @@
 
 | 项目 | 实测配置 |
 |---|---|
-| GPU | 8× NVIDIA RTX PRO 6000 Blackwell Workstation Edition |
+| 主机 GPU | 8× NVIDIA RTX PRO 6000 Blackwell Workstation Edition |
 | 单卡显存 | 驱动可见 97,887 MiB |
-| 实际部署 | GPU 0-3，TP4，DCP1 |
+| 服务使用 | 4× GPU（GPU 0-3），TP4，DCP1 |
 | 操作系统 | Ubuntu 26.04 LTS |
 | NVIDIA 驱动 | 595.71.05 |
 | CUDA Toolkit | 13.3 |
