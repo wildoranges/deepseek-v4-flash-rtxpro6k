@@ -155,15 +155,6 @@ curl -i http://127.0.0.1:8000/health
 | `OMP_NUM_THREADS` | `16` | r18 上游默认值 |
 | `NUMA_NODE` | `0` | 默认匹配本机 GPU 0-3 |
 
-GPU 4-7 在本测试机属于 NUMA 1，测试第二组卡时使用：
-
-```bash
-CUDA_VISIBLE_DEVICES=4,5,6,7 NUMA_NODE=1 PORT=8001 \
-  ./serve-infernal-r18.sh
-```
-
-不同主板拓扑可能不同，请以 `nvidia-smi topo -m` 和 `numactl --hardware` 为准。
-
 ## 调用 API
 
 普通请求：
