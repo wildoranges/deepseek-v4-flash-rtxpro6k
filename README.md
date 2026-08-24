@@ -147,28 +147,6 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 
 支持值由模型模板决定；本部署验证过 `low`、`medium`、`high`、`max`，服务默认 `max`。
 
-## New API
-
-- Base URL：`http://127.0.0.1:8000/v1`
-- 模型：`dsv4-flash`
-- Key：`.api_key` 的内容
-
-若用模型名后缀区分无思考版本，在 New API 请求转换中设置：
-
-```json
-{
-  "operations": [
-    {
-      "mode": "set",
-      "path": "chat_template_kwargs.thinking",
-      "value": false,
-      "conditions": [{"path": "model", "mode": "suffix", "value": "-nothink"}],
-      "logic": "OR"
-    }
-  ]
-}
-```
-
 ## 1M 上下文与缓存
 
 当前 KV 预算约 7,339,750 tokens，按 1,048,576-token 满上下文请求估算理论上限约 7
