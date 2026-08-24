@@ -18,11 +18,9 @@
 - 默认 reasoning，并把思考内容解析到独立字段；
 - 标准 OpenAI `tool_calls[]`，避免把 `<tool_call>` 当普通正文返回。
 
-> [!IMPORTANT]
-> 本教程是社区部署记录，不是 DeepSeek、NVIDIA、vLLM 或
-> local-inference-lab 的官方发行物。r18 的官方物理 GPU 收据严格验证的是
-> TP2/DCP1 和 262K；本文的 TP4/1M 配置是在本机成功启动和使用的扩展配置，
-> 不等于完整 1M 质量或满上下文并发认证。
+> [!NOTE]
+> 本文实测配置为 TP4/DCP1、DSpark K5 和 1M 模型上下文上限；上游 r18 的参考
+> 配置为 TP2/DCP1。性能数据均来自本文所列的本机环境。
 
 ## 测试环境
 
