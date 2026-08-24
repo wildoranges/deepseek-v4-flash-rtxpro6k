@@ -152,8 +152,8 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 当前 KV 预算约 7,339,750 tokens，按 1,048,576-token 满上下文请求估算理论上限约 7
 路；这不是 7 路满上下文的性能保证。真实请求越长，decode 吞吐越低。
 
-服务端已启用 prefix cache。它复用 vLLM 的 KV block，New API 不一定显示为供应商计费
-缓存；可查看 vLLM metrics 或响应中的 `prompt_tokens_details.cached_tokens`。
+服务端已启用 prefix cache，复用 vLLM 的 KV block；可查看 vLLM metrics 或响应中的
+`prompt_tokens_details.cached_tokens`。
 
 ## 常见排查
 
