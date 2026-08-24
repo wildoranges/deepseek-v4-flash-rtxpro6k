@@ -1,0 +1,17 @@
+# This deployment directory contains weights-adjacent caches, build trees,
+# logs, credentials, and historical experiments. Keep the public repository
+# on an explicit allowlist so `git add .` cannot publish them accidentally.
+*
+
+!/.gitignore
+!/LICENSE
+!/README.md
+!/setup-infernal-r18.sh
+!/serve-infernal-r18.sh
+!/benchmarks/
+!/benchmarks/infernal-r18-c1.json
+!/benchmarks/infernal-r18-c4.json
+!/benchmarks/infernal-r18-numa0-omp16-c1.json
+!/benchmarks/infernal-r18-numa0-omp16-temp0-c1.json
+!/benchmarks/infernal-r18-numa0-omp16-temp0-c4.json
+!/benchmarks/infernal-r18-numa0-omp16-temp0-c8.json
