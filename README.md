@@ -1,4 +1,4 @@
-# 在 RTX PRO 6000 Blackwell 上部署 DeepSeek-V4-Flash-0731
+# 在 4 * RTX PRO 6000 Blackwell 上部署 DeepSeek-V4-Flash-0731
 
 这是一份不用容器、通过 `uv` 在本机编译并部署
 [`deepseek-ai/DeepSeek-V4-Flash-0731`](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731)
@@ -9,7 +9,7 @@
 本仓库的默认目标是：
 
 - 4 张 **NVIDIA RTX PRO 6000 Blackwell Workstation Edition**；
-- GPU 0-3，TP4，只使用一组 4 卡；
+- GPU 0-3，TP4；
 - 官方 DeepSeek-V4-Flash-0731 权重；
 - B12X W4A8、FP8 compressed MLA KV；
 - fixed probabilistic DSpark K5，不关闭 DSpark；
@@ -36,10 +36,6 @@
 | uv | 0.12.5 |
 | vLLM | `0.26.1rc0+infernal.invocation...r18` |
 | 模型磁盘大小 | 约 155.43 GiB |
-
-版本不是宽松建议，而是这套源码组合的已验证基线。特别是 CUDA、PyTorch、
-FlashInfer、B12X 和 vLLM 之间耦合较强，升级其中一项前应重新做工具调用、
-正确性与吞吐测试。
 
 ## 准备系统
 
@@ -197,40 +193,6 @@ curl http://127.0.0.1:8000/v1/chat/completions \
 支持值取决于模型模板；本部署使用过 `low`、`medium`、`high` 和 `max`，服务默认
 为 `max`。
 
-## New API 接入
-
-在 New API 中使用：
-
-- Base URL：`http://127.0.0.1:8000/v1`
-- 模型：`dsv4-flash`
-- Key：`.api_key` 中的值
-
-关闭 `-nothink` 别名思考时，可以在 New API 请求转换中设置：
-
-```json
-{
-  "operations": [
-    {
-      "mode": "set",
-      "path": "chat_template_kwargs.thinking",
-      "value": false,
-      "conditions": [
-        {
-          "path": "model",
-          "mode": "suffix",
-          "value": "-nothink"
-        }
-      ],
-      "logic": "OR"
-    }
-  ]
-}
-```
-
-vLLM prefix cache 是服务端 KV block cache。New API 不一定把它显示成供应商缓存计费
-字段；应查看 vLLM metrics、日志中的 `Prefix cache hit rate`，或响应
-`prompt_tokens_details.cached_tokens`。
-
 ## 1M 上下文与并发
 
 本机 TP4/1M/`MAX_NUM_SEQS=16` 启动后分配了约 `7,339,750` 个 KV tokens。
@@ -333,13 +295,6 @@ JIT。对于长上下文 decode，1 秒粒度的 `nvidia-smi` 也可能错过短
 这是 vLLM 本地 prefix cache，不是上游厂商的计费缓存协议。缓存可以有效，但 New API
 前端不一定显示对应字段。
 
-## 安全说明
-
-- `.api_key`、日志、权重、缓存、虚拟环境和源码构建树已被仓库白名单排除；
-- 服务默认只监听 localhost；
-- 不要把带用户名/密码的代理 URL 写入脚本或提交历史；
-- 如需对外暴露，请额外配置 TLS、访问控制、限流和反向代理。
-
 ## 上游资料与致谢
 
 - [RTX PRO 6000 Blackwell 部署资料](https://github.com/local-inference-lab/rtx6kpro)
@@ -347,8 +302,7 @@ JIT。对于长上下文 decode，1 秒粒度的 `nvidia-smi` 也可能错过短
 - [r18 源码合并契约](https://github.com/local-inference-lab/rtx6kpro/issues/67)
 - [DeepSeek-V4-Flash-0731](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731)
 
-感谢 local-inference-lab 对 RTX PRO 6000 Blackwell 本地推理栈的公开研究。本仓库只把
-经过本机验证的无容器步骤、配置和排障经验整理为可复现教程。
+感谢 local-inference-lab 对 RTX PRO 6000 Blackwell 本地推理栈的公开研究。
 
 ## License
 
